@@ -5,13 +5,13 @@ import { GoogleAuthProvider, getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAaOGSta5H1z0HdesGFzV34js77kaXBz6s",
-  authDomain: "disneyplus-clone-ad72c.firebaseapp.com",
-  projectId: "disneyplus-clone-ad72c",
-  storageBucket: "disneyplus-clone-ad72c.appspot.com",
-  messagingSenderId: "876274018728",
-  appId: "1:876274018728:web:72726b774184026cfb159d",
-  measurementId: "G-PD2PE9WVSD" 
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_PROJECTID,
+  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_APPID,
+  measurementId: process.env.REACT_APP_MEASUREMENTID 
 }
 
 const firebaseApp = initializeApp(firebaseConfig);
