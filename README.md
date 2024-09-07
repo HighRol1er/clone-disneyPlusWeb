@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# Header 수정 
+1.   
+<!--
+useEffect(() => {
+  auth.onAuthStateChanged(async (user) => { 
+    if(user) {
+      setUser(user);
+      navigate('/home');
+    }
+  });
+},[userName]); 
+-->
+이렇게 작성한 코드를 아래와 같이 변경 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<!--
+useEffect(() => {
+  const unsubscribe = auth.onAuthStateChanged(async (user) => { 
+    if(user) {
+      setUser(user);
+      navigate('/home');
+    }
+  });
 
-## Available Scripts
+  return () => unsubscribe(); 
+}, []);  
+-->
+auth.onAuthStateChanged는 이미 사용자의 인증상태를 감지하기 때문에 굳이 userName을 의존성 배열에 넣을 필요가 없다. 
+userName이 바뀌지 않더라도 인증 상태가 변경될 때 이 이벤트가 자동으로 감지된다. 
 
-In the project directory, you can run:
+의존성 배열에 userName을 넣으면 다음과 같은 문제가 발생한다. 
+1. 재실행 
+2. 무한루프 : setUser(user)가 userName을 업데이트하고, 그로 인해 userName이 변경되면 useEffect가 다시 실행되며, 이로 인해 의도치 않게 무한 루프에 빠질 수 있다. 
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*** 따라서 의존성 배열에서 userName을 제거하고, clean up 함수를 사용해 컴포넌트가 마운트, 언마운트될 때만 이용해서 상태를 추적할 수 있다.

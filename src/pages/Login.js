@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
 const Login = (props) => {
+  const desc = "Get Premier Access to Raya and the Last Dragon for an addition fee with a Disney+ subscription. As of 03/26/21, the price of Disney+ and The Disney Bundle will increase by $1."
   return(
     <Container>
       <Content>
         <CTA>
           <CTALogoOne src="/images/cta-logo-one.svg" alt="/" />
           <SignUp>GET ALL THERE</SignUp>
-          <Description>Get Premier Access to Raya and the Last Dragon for an addition fee with a Disney+ subscription. As of 03/26/21, the price of Disney+ and The Disney Bundle will increase by $1.</Description>
+          <Description>{desc}</Description>
           <CTALogoTwo src="/images/cta-logo-two.png"/>
         </CTA>
         <BgImage />

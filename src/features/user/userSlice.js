@@ -30,4 +30,4 @@ export const selectUserName = (state) => state.user.name;
 export const selectUserEmail = (state) => state.user.email;
 export const selectUserPhoto = (state) => state.user.photo;
 
-export default userSlice.reducer; // store.js import userReducer 원래 안됐는데 이코드 넣고는 에러 없어짐.. 왜? 
+export default userSlice.reducer; 

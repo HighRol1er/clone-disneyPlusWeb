@@ -23,20 +23,35 @@ const Header = (props) => {
     );
   };
   //사용자가 로그인되어 있으면 /home으로 이동하게 해줌
-  // onAuthStateChagnged? << 이게 정확히 뭐지 
+  /* 
+    Q : onAuthStateChagnged? <- 이게 뭐지
+    A : Firebase Auth 인스턴스의 메서드로 사용자의 인증 상태가 변경될 때 호출 된다. 
+  */
+  
+  // useEffect(() => {
+  //   auth.onAuthStateChanged(async (user) => { 
+  //     if(user) {
+  //       setUser(user);
+  //       navigate('/home');
+  //     }
+  //   });
+  // },[userName]);
+
   useEffect(() => {
-    auth.onAuthStateChanged(async (user) => { 
+    const unsubscribe = auth.onAuthStateChanged(async (user) => { 
       if(user) {
         setUser(user);
         navigate('/home');
-      } 
+      }
     });
-  },[userName]);
+  
+    return () => unsubscribe(); // 컴포넌트 언마운트 시 cleanup
+  }, []); // 빈 배열로 설정하여 마운트 시 한 번만 실행
 
   const handleAuth = () => {
     if(!userName) {
-      signInWithPopup(auth, provider). then((result) => {
-        // console.log(result);
+      signInWithPopup(auth, provider).then((result) => {
+
         setUser(result.user);
       }).catch((error) => {
         alert(error.message);
